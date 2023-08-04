@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ -n "$GH_APP" ]; then
+  if [ -n "$GH_USER" ]; then
+    echo "Can't use both user and app!" 1>&2
+    exit 1
+  fi
+
+  GH_USER="$GH_APP%5Bbot%5D"
+elif [ -z "$GH_USER" ]; then
+  echo "App or user must be specified!" 1>&2
+  exit 1
+fi
+
+
+user_id="$(curl -s -L \
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  "https://api.github.com/users/$GH_USER" \
+  | jq -r '.id' )"
+
+if [ "$user_id" == "null" ]; then
+  echo "Unable to find user!" 1>&2
+  exit 1
+fi
+
+echo "user-name=$GH_USER" >> "$GITHUB_OUTPUT"
+echo "user-id=$user_id" >> "$GITHUB_OUTPUT"
+echo "user-email=$user_id+$GH_USER@users.noreply.github.com" >> "$GITHUB_OUTPUT"

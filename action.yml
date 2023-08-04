@@ -1,0 +1,53 @@
+name: Setup Git User From GitHub App
+description: Setup Git User From GitHub App
+branding:
+  icon: github
+inputs:
+  user:
+    description: User to configure
+  app:
+    description: Application to configure
+  config-global:
+    description: Should Git User be configured globally?
+    default: true
+  config-local:
+    description: Should Git User be configured locally?
+    default: false
+runs:
+  using: composite
+  steps:
+    - id: get-user
+      name: Get App slug
+      shell: bash
+      env:
+        GH_USER: ${{ inputs.user }}
+        GH_APP: ${{ inputs.app }}
+      run: ${{ github.action_path }}/get-name
+    - name: Configure Git User Globally
+      if: "${{ inputs.config-global == 'true' }}"
+      shell: bash
+      env:
+        USER_NAME: ${{ steps.get-user.outputs.user-name }}
+        USER_EMAIL: ${{ steps.get-user.outputs.user-email }}
+      run: |
+        git config --global user.name "$USER_NAME"
+        git config --global user.email "$USER_EMAIL"
+    - name: Configure Git User Locally
+      if: "${{ inputs.config-local == 'true' }}"
+      shell: bash
+      env:
+        USER_NAME: ${{ steps.get-user.outputs.user-name }}
+        USER_EMAIL: ${{ steps.get-user.outputs.user-email }}
+      run: |
+        git config user.name "$USER_NAME"
+        git config user.email "$USER_EMAIL"
+outputs:
+  user-name:
+    description: User name
+    value: ${{ steps.get-user.outputs.user-name }}
+  user-id:
+    description: User id
+    value: ${{ steps.get-user.outputs.user-id }}
+  user-email:
+    description: User email
+    value: ${{ steps.get-user.outputs.user-email }}
