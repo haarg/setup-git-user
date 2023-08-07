@@ -7,6 +7,8 @@ inputs:
     description: User to configure
   app:
     description: Application to configure
+  jwt:
+    description: JWT token for app
   config-global:
     description: Should Git User be configured globally?
     default: true
@@ -22,6 +24,7 @@ runs:
       env:
         GH_USER: ${{ inputs.user }}
         GH_APP: ${{ inputs.app }}
+        JWT_TOKEN: ${{ inputs.jwt }}
       run: ${{ github.action_path }}/get-name
     - name: Configure Git User Globally
       if: "${{ inputs.config-global == 'true' }}"
