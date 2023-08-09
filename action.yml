@@ -3,12 +3,18 @@ description: Setup Git User From GitHub App
 branding:
   icon: github
 inputs:
+  token:
+    description: Token to use when querying GitHub API
+    default: ${{ github.token }}
   user:
     description: User to configure
   app:
     description: Application to configure
   jwt:
     description: JWT token for app
+  always-noreply:
+    description: Always use noreply email address
+    default: false
   config-global:
     description: Should Git User be configured globally?
     default: true
@@ -22,9 +28,11 @@ runs:
       name: Get App slug
       shell: bash
       env:
+        GITHUB_TOKEN: ${{ inputs.token }}
         GH_USER: ${{ inputs.user }}
         GH_APP: ${{ inputs.app }}
         JWT_TOKEN: ${{ inputs.jwt }}
+        NOREPLY: ${{ inputs.always-noreply }}
       run: ${{ github.action_path }}/get-name
     - name: Configure Git User Globally
       if: "${{ inputs.config-global == 'true' }}"
@@ -45,6 +53,9 @@ runs:
         git config user.name "$USER_NAME"
         git config user.email "$USER_EMAIL"
 outputs:
+  user-login:
+    description: User login
+    value: ${{ steps.get-user.outputs.user-login }}
   user-name:
     description: User name
     value: ${{ steps.get-user.outputs.user-name }}
