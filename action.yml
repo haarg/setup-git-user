@@ -65,3 +65,6 @@ outputs:
   user-email:
     description: User email
     value: ${{ steps.get-user.outputs.user-email }}
+  user-full:
+    description: User name with email
+    value: ${{ steps.get-user.outputs.user-name }} <${{ steps.get-user.outputs.user-email }}>
