@@ -25,20 +25,22 @@ if [ -n "$JWT_TOKEN" ]; then
     echo "Unable to find app!" 1>&2
     exit 1
   fi
-  GH_USER="$slug%5Bbot%5D"
+  GH_USER="$slug[bot]"
 elif [ -n "$GH_APP" ]; then
   slug="$(printf '%s' "$GH_APP" | sed -E 's/[^a-zA-Z0-9]+/-/g;' | tr '[:upper:]' '[:lower:]' )"
-  GH_USER="$slug%5Bbot%5D"
+  GH_USER="$slug[bot]"
 elif [ -z "$GH_USER" ]; then
   echo "app, user, or jwp must be specified!" 1>&2
   exit 1
 fi
 
+user_enc="$(printf %s "$GH_USER" | jq -sRr @uri)"
+
 user_data="$(curl -s -L \
   -H "Accept: application/vnd.github+json" \
   "${token_header[@]}" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  "https://api.github.com/users/$GH_USER")"
+  "https://api.github.com/users/$user_enc")"
 
 user_id="$(echo "$user_data" | jq -r '.id' )"
 
