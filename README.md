@@ -16,6 +16,19 @@ the given user or app.
 Authenticating as an app and configuring git to use a matching user:
 
 ```yaml
+  - name: Generate Auth Token
+    id: app-token
+    uses: actions/create-github-app-token@v1
+    with:
+      app-id: '123456'
+      private-key: ${{ secrets.MY_GH_APP_PRIVATE_KEY_SECRET }}
+  - uses: haarg/setup-git-user@v1
+    with:
+      app: ${{ steps.app-token.output.app-slug }}
+```
+
+Authenticating as an app and using its JWT token:
+```yaml
   - name: Generate JWT and token
     id: generate-github-app-tokens
     uses: jamestrousdale/github-app-jwt-token@0.1.4
