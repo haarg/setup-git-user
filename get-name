@@ -6,10 +6,10 @@ if [ -n "$GITHUB_TOKEN" ]; then
   token_header=(-H "Authorization: token $GITHUB_TOKEN")
 fi
 
-if ( [ -n "$GH_APP" ] && [ -n "$GH_USER" ] ) || \
-  ( [ -n "$GH_USER" ] && [ -n "$JWT_TOKEN" ] ) || \
-  ( [ -n "$GH_APP" ] && [ -n "$JWT_TOKEN" ] ); then
-  echo "Only one of user, app, or jwt can be set!" 1>&2
+if ( [ -n "$GH_APP" ]   && [ -n "$GH_USERJWT_TOKEN" ] ) || \
+  ( [ -n "$GH_USER" ]   && [ -n "$GH_APP$JWT_TOKEN" ] ) || \
+  ( [ -n "$JWT_TOKEN" ] && [ -n "$GH_USER$GH_APP" ] ); then
+  echo "Only one of app, user, or jwt can be set!" 1>&2
   exit 1
 fi
 
