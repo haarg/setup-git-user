@@ -1,0 +1,38 @@
+{
+  "name": "setup-git-user",
+  "version": "2.0.0",
+  "description": "GitHub action to configure git with a name and email corresponding to a GitHub user or app.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haarg/setup-git-user"
+  },
+  "bugs": {
+    "url": "https://github.com/haarg/setup-git-user/issues"
+  },
+  "homepage": "https://github.com/haarg/setup-git-user#readme",
+  "license": "ISC",
+  "author": "Graham Knop <haarg@haarg.org>",
+  "type": "module",
+  "main": "src/user-info.mjs",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "mocha",
+    "build": "./build-release.mjs"
+  },
+  "dependencies": {
+    "@actions/core": "^2.0.2",
+    "@actions/exec": "^2.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@stylistic/eslint-plugin": "^5.2.3",
+    "chai": "^5.2.1",
+    "esbuild": "^0.27.2",
+    "eslint": "^9.33.0",
+    "eslint-plugin-mocha": "^11.1.0",
+    "esmock": "^2.7.1",
+    "globals": "^16.3.0",
+    "mocha": "^11.7.1"
+  }
+}

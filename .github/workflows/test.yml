@@ -1,0 +1,45 @@
+name: Test
+on:
+  push:
+    branches:
+      - '*'
+  merge_group:
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+jobs:
+  action-run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install
+      - run: npm run build
+      - id: setup-git-user
+        uses: ./
+        with:
+          user: haarg
+      - name: Check User ID
+        run: |
+          echo "User ID: $USER_ID"
+          [[ $USER_ID == 50029 ]]
+        env:
+          USER_ID: ${{ steps.setup-git-user.outputs.user-id }}
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm install
+      - run: npm run test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm install
+      - run: npm run lint

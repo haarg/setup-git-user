@@ -44,7 +44,7 @@ Authenticating as an app and using its JWT token:
 Configuring git with a specific user's details:
 
 ```yaml
-  - uses: haarg/setup-git-user@v1
+  - uses: haarg/setup-git-user@v2
     with:
       user: haarg
 ```
