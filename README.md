@@ -28,6 +28,7 @@ Authenticating as an app and configuring git to use a matching user:
 ```
 
 Authenticating as an app and using its JWT token:
+
 ```yaml
   - name: Generate JWT and token
     id: generate-github-app-tokens
