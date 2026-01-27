@@ -11,6 +11,9 @@ const config = {
   platform:     'node',
   target:       ['node20'],
   minify:       true,
+  banner:       {
+    js: 'import { createRequire } from \'node:module\';\nconst require = createRequire(import.meta.url);',
+  },
 };
 
 const ctx = await esbuild.context(config);
