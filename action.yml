@@ -22,7 +22,7 @@ inputs:
     description: Should Git User be configured locally?
     default: false
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/action.mjs'
 outputs:
   user-login:

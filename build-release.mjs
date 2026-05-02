@@ -9,7 +9,7 @@ const config = {
   outExtension: { '.js': '.mjs' },
   bundle:       true,
   platform:     'node',
-  target:       ['node20'],
+  target:       ['node24'],
   minify:       true,
   banner:       {
     js: 'import { createRequire } from \'node:module\';\nconst require = createRequire(import.meta.url);',
